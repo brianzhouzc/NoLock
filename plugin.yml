@@ -1,5 +1,5 @@
-name: SimpleChestLock
+name: NoLock
 version: 1.0
-main: me.Brian.SimpleChestLock.Main
+main: me.Brian.NoLock.Main
 author: 1461748123
 collaborator: connection-lost
