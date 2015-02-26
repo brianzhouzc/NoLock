@@ -1,5 +1,6 @@
 package me.Brian.NoLock;
 
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.minecraft.server.v1_8_R1.INamableTileEntity;
@@ -13,6 +14,7 @@ import net.minecraft.server.v1_8_R1.TileEntityFurnace;
 import net.minecraft.server.v1_8_R1.TileEntityHopper;
 
 import org.bukkit.block.Block;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,8 +22,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class Main extends JavaPlugin implements Listener {
+	static Plugin plugin;
 
 	public void onEnable() {
+		plugin = this;
 		this.getServer().getPluginManager().registerEvents(this, this);
 	}
 
@@ -69,5 +73,9 @@ public class Main extends JavaPlugin implements Listener {
 			return ((INamableTileEntity) nmsTileEntity).getName();
 		}
 		return null;
+	}
+
+	public static Plugin getPlugin() {
+		return plugin;
 	}
 }
