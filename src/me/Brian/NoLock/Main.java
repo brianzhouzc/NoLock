@@ -24,16 +24,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class Main extends JavaPlugin implements Listener {
 
 	public void onEnable() {
-		// String version = "net.minecraft.server." + Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
-		// System.out.println(version);
-		// Class<?> c = null;
-		// try {
-		// c = Class.forName(version + "INamableTileEntity");
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
 		this.getServer().getPluginManager().registerEvents(this, this);
-
 	}
 
 	@EventHandler
@@ -77,21 +68,7 @@ public class Main extends JavaPlugin implements Listener {
 		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
 
 		if (nmsTileEntity instanceof INamableTileEntity) {
-			if (nmsTileEntity instanceof TileEntityChest) {
-				return ((TileEntityChest) nmsTileEntity).getName();
-			} else if (nmsTileEntity instanceof TileEntityFurnace) {
-				return ((TileEntityFurnace) nmsTileEntity).getName();
-			} else if (nmsTileEntity instanceof TileEntityDispenser) {
-				return ((TileEntityDispenser) nmsTileEntity).getName();
-			} else if (nmsTileEntity instanceof TileEntityDropper) {
-				return ((TileEntityDropper) nmsTileEntity).getName();
-			} else if (nmsTileEntity instanceof TileEntityHopper) {
-				return ((TileEntityHopper) nmsTileEntity).getName();
-			} else if (nmsTileEntity instanceof TileEntityBrewingStand) {
-				return ((TileEntityBrewingStand) nmsTileEntity).getName();
-			} else if (nmsTileEntity instanceof TileEntityEnchantTable) {
-				return ((TileEntityEnchantTable) nmsTileEntity).getName();
-			}
+			return ((INamableTileEntity) nmsTileEntity).getName();
 		}
 		return null;
 	}
