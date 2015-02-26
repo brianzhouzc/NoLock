@@ -1,13 +1,11 @@
 package me.Brian.NoLock;
 
-import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.minecraft.server.v1_8_R1.INamableTileEntity;
 import net.minecraft.server.v1_8_R1.TileEntity;
 import net.minecraft.server.v1_8_R1.TileEntityBrewingStand;
 import net.minecraft.server.v1_8_R1.TileEntityChest;
-import net.minecraft.server.v1_8_R1.TileEntityCommand;
 import net.minecraft.server.v1_8_R1.TileEntityDispenser;
 import net.minecraft.server.v1_8_R1.TileEntityDropper;
 import net.minecraft.server.v1_8_R1.TileEntityEnchantTable;
