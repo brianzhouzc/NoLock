@@ -33,6 +33,13 @@ public class ContainersOpenListener implements Listener {
 						event.setCancelled(true);
 						player.sendMessage("[NoLock] You have no permission to open this container.");
 					}
+					if (container.isOwner(player)) {
+						player.sendMessage("owner");
+					}
+
+					if (container.isUser(player)) {
+						player.sendMessage("user");
+					}
 				}
 			}
 		}

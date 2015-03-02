@@ -15,6 +15,7 @@ import net.minecraft.server.v1_8_R1.TileEntityHopper;
 
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.entity.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
@@ -33,6 +34,7 @@ public class Container {
 	}
 
 	public Container(Block block) {
+		this.block = block;
 		this.rawdata = getRawData(block);
 		JSONObject jsonobj = new JSONObject(this.rawdata);
 		this.owner = jsonobj.getString("Owner");
@@ -170,4 +172,23 @@ public class Container {
 		}
 		return false;
 	}
+
+	// isOwner method
+	public boolean isOwner(Player player) {
+		return isOwner(this.block, player);
+	}
+
+	public static boolean isOwner(Block block, Player player) {
+		return getOwner(getRawData(block)).equalsIgnoreCase(player.getUniqueId().toString());
+	}
+
+	// isUser method
+	public boolean isUser(Player player) {
+		return isUser(this.block, player);
+	}
+
+	public static boolean isUser(Block block, Player player) {
+		return getUsers(getRawData(block)).contains(player.getUniqueId().toString());
+	}
+
 }

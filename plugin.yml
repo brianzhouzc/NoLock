@@ -1,5 +1,9 @@
 name: NoLock
-version: 1.0
+version: 0.1.0
 main: me.Brian.NoLock.Main
 author: 1461748123
 collaborator: connection-lost
+commands:
+  nolock:
+    description: Main command
+    usage: /nolock
