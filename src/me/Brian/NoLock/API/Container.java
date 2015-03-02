@@ -1,4 +1,4 @@
-package me.Brian.NoLock;
+package me.Brian.NoLock.API;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,9 +20,17 @@ import org.json.JSONObject;
 import org.json.JSONStringer;
 
 public class Container {
+	Block block;
 	String rawdata;
 	String owner;
 	List<String> users = new ArrayList<String>();
+
+	public Container() {
+		this.block = null;
+		this.rawdata = null;
+		this.owner = null;
+		this.users = null;
+	}
 
 	public Container(Block block) {
 		this.rawdata = getRawData(block);
@@ -34,16 +42,7 @@ public class Container {
 		}
 	}
 
-	public Container(String rawdata) {
-		this.rawdata = rawdata;
-		JSONObject jsonobj = new JSONObject(this.rawdata);
-		this.owner = jsonobj.getString("Owner");
-		JSONArray jsonarray = new JSONArray(jsonobj.get("Users").toString());
-		for (int i = 0; i < jsonarray.length(); i++) {
-			this.users.add(jsonarray.get(i).toString());
-		}
-	}
-
+	// getRawdata methods
 	public String getRawData() {
 		return this.rawdata;
 	}
@@ -58,6 +57,7 @@ public class Container {
 		return null;
 	}
 
+	// getOwner methods
 	public String getOwner() {
 		return this.owner;
 	}
@@ -67,6 +67,7 @@ public class Container {
 		return jsonobj.getString("Owner");
 	}
 
+	// geUsers methods
 	public List<String> getUsers() {
 		return this.users;
 	}
@@ -82,6 +83,11 @@ public class Container {
 			return users;
 		}
 		return null;
+	}
+
+	// setRawData methods
+	public boolean setRawData(String rawdata) {
+		return setRawData(this.block, rawdata);
 	}
 
 	public static boolean setRawData(Block block, String rawdata) {
@@ -122,9 +128,13 @@ public class Container {
 			}
 			setRawData(block, stringer.endObject().toString());
 			return true;
-			// System.out.println(stringer.endObject().toString());
 		}
 		return false;
+	}
+
+	// addUsers methods
+	public boolean addUsers(List<String> users) {
+		return addUsers(this.block, users);
 	}
 
 	public static boolean addUsers(Block block, String rawdata, List<String> users) {
@@ -136,7 +146,6 @@ public class Container {
 				jsonobj.put("Users", users);
 			}
 			return setRawData(block, jsonobj.toString());
-			// System.out.println(jsonobj.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -146,6 +155,18 @@ public class Container {
 	public static boolean addUsers(Block block, List<String> users) {
 		if (getRawData(block) != null) {
 			return addUsers(block, getRawData(block), users);
+		}
+		return false;
+	}
+
+	// isContainer method
+	public static boolean isContainer(Block block) {
+		try {
+			JSONObject jsonobj = new JSONObject(getRawData(block));
+			if (jsonobj.has("Owner")) {
+				return true;
+			}
+		} catch (Exception e) {
 		}
 		return false;
 	}

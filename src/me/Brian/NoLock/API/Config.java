@@ -1,4 +1,6 @@
-package me.Brian.NoLock;
+package me.Brian.NoLock.API;
+
+import me.Brian.NoLock.Main;
 
 import org.bukkit.plugin.Plugin;
 
