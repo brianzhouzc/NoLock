@@ -31,7 +31,7 @@ public class Main extends JavaPlugin implements Listener {
 		// System.out.println(container.getRawData());
 		// System.out.println(container.getOwner());
 		// System.out.println(container.getUsers());
-		List users = new ArrayList<>();
+		List<String> users = new ArrayList<String>();
 		users.add("test");
 		users.add("test2");
 		Container.addUsers(null, "{\"Owner\":\"97f10862-7eef-4755-979e-238253cf4677\"}", users);
@@ -48,51 +48,28 @@ public class Main extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		if (event.getAction() == Action.LEFT_CLICK_BLOCK && event.getPlayer().isSneaking()) {
-			if (Container.addUsers(event.getClickedBlock(), event.getPlayer().getName(), null)) {
+			if (Container.setRawData(event.getClickedBlock(), "{\"Owner\":\"" + event.getPlayer().getUniqueId().toString()
+					+ "\",\"Users\":[\"69abcfbf-991d-42a3-8c1d-10787eae7949\",\"9e550853-9826-40d4-b5d5-29f5653aaf0e\",\"fa3c1f7a-f18b-4629-b077-4e7a2c333f04\"]}")) {
 				event.getPlayer().sendMessage("success!");
 				event.setCancelled(true);
 			}
 			// Container.setRawData(event.getClickedBlock(), event.getPlayer().getUniqueId().toString(), null, null);
 			// event.getPlayer().sendMessage("success!");
 			// event.setCancelled(true);
-		} else if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getPlayer().isSneaking()) {
-			event.getPlayer().sendMessage(getName(event.getClickedBlock()));
-			event.setCancelled(true);
-		}
-	}
-
-	public static void setName(String name, Block block) {
-		final CraftWorld world = (CraftWorld) block.getWorld();
-		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
-
-		if (nmsTileEntity instanceof INamableTileEntity) {
-			if (nmsTileEntity instanceof TileEntityChest) {
-				((TileEntityChest) nmsTileEntity).a(name);
-			} else if (nmsTileEntity instanceof TileEntityFurnace) {
-				((TileEntityFurnace) nmsTileEntity).a(name);
-			} else if (nmsTileEntity instanceof TileEntityDispenser) {
-				((TileEntityDispenser) nmsTileEntity).a(name);
-			} else if (nmsTileEntity instanceof TileEntityDropper) {
-				((TileEntityDropper) nmsTileEntity).a(name);
-			} else if (nmsTileEntity instanceof TileEntityHopper) {
-				((TileEntityHopper) nmsTileEntity).a(name);
-			} else if (nmsTileEntity instanceof TileEntityBrewingStand) {
-				((TileEntityBrewingStand) nmsTileEntity).a(name);
-			} else if (nmsTileEntity instanceof TileEntityEnchantTable) {
-				((TileEntityEnchantTable) nmsTileEntity).a(name);
+		} else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			if (event.getPlayer().isSneaking()) {
+				event.getPlayer().sendMessage(Container.getRawData(event.getClickedBlock()));
+				event.setCancelled(true);
+			} else {
+				Container container = new Container(event.getClickedBlock());
+				if (!container.getOwner().equalsIgnoreCase(event.getPlayer().getUniqueId().toString())) {
+					event.getPlayer().sendMessage("You have no permission");
+					event.setCancelled(true);
+				} else {
+					event.getPlayer().sendMessage("Succsess open container");
+				}
 			}
-			nmsTileEntity.update();
 		}
-	}
-
-	public static String getName(Block block) {
-		final CraftWorld world = (CraftWorld) block.getWorld();
-		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
-
-		if (nmsTileEntity instanceof INamableTileEntity) {
-			return ((INamableTileEntity) nmsTileEntity).getName();
-		}
-		return null;
 	}
 
 	public static Plugin getPlugin() {

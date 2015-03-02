@@ -67,11 +67,11 @@ public class Container {
 		return jsonobj.getString("Owner");
 	}
 
-	public List getUsers() {
+	public List<String> getUsers() {
 		return this.users;
 	}
 
-	public static List getUsers(String rawdata) {
+	public static List<String> getUsers(String rawdata) {
 		JSONObject jsonobj = new JSONObject(rawdata);
 		if (jsonobj.has("Users")) {
 			JSONArray jsonarray = new JSONArray(jsonobj.get("Users").toString());
@@ -110,7 +110,7 @@ public class Container {
 		return false;
 	}
 
-	public static boolean setRawData(Block block, String owner, List users, Object extradata) {
+	public static boolean setRawData(Block block, String owner, List<String> users, Object extradata) {
 		if (block != null && owner != null) {
 			JSONStringer stringer = new JSONStringer();
 			stringer.object().key("Owner").value(owner);
@@ -127,34 +127,25 @@ public class Container {
 		return false;
 	}
 
-	public static boolean addUsers(Block block, String rawdata, List users) {
+	public static boolean addUsers(Block block, String rawdata, List<String> users) {
 		try {
 			JSONObject jsonobj = new JSONObject(rawdata);
 			if (getUsers(rawdata) != null) {
-				jsonobj.put("Users", users.add(jsonobj.get("Users")));
+				jsonobj.put("Users", users.add(jsonobj.get("Users").toString()));
 			} else {
 				jsonobj.put("Users", users);
 			}
 			return setRawData(block, jsonobj.toString());
 			// System.out.println(jsonobj.toString());
 		} catch (Exception e) {
+			e.printStackTrace();
 			return false;
 		}
 	}
 
-	public static boolean addUsers(Block block, List users) {
+	public static boolean addUsers(Block block, List<String> users) {
 		if (getRawData(block) != null) {
-			try {
-				JSONObject jsonobj = new JSONObject(getRawData(block));
-				if (getUsers(getRawData(block)) != null) {
-					jsonobj.put("Users", users.add(jsonobj.get("Users")));
-				} else {
-					jsonobj.put("Users", users);
-				}
-				return setRawData(block, jsonobj.toString());
-			} catch (Exception e) {
-				return false;
-			}
+			return addUsers(block, getRawData(block), users);
 		}
 		return false;
 	}
