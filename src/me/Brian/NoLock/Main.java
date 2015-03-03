@@ -4,7 +4,8 @@ import java.util.logging.Logger;
 
 import me.Brian.NoLock.Listener.BlockPlaceListener;
 import me.Brian.NoLock.Listener.CommandListener;
-import me.Brian.NoLock.Listener.ContainersOpenListener;
+import me.Brian.NoLock.Listener.ContainerOpenListener;
+import me.Brian.NoLock.Listener.ExplosionListener;
 
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
@@ -21,12 +22,12 @@ public class Main extends JavaPlugin implements Listener {
 	}
 
 	public void onEnable() {
-		getServer().getLogger().info("[NoLock] Loading NoLock " + getDescription().getVersion() + "...");
 		plugin = this;
 		pm = getServer().getPluginManager();
 		logger = getServer().getLogger();
-		pm.registerEvents(new ContainersOpenListener(), this);
+		pm.registerEvents(new ContainerOpenListener(), this);
 		pm.registerEvents(new BlockPlaceListener(), this);
+		pm.registerEvents(new ExplosionListener(), this);
 		getCommand("nolock").setExecutor(new CommandListener());
 		logger.info("[NoLock] NoLock " + getDescription().getVersion() + " successfuly loaded!");
 	}

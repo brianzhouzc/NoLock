@@ -13,6 +13,7 @@ import net.minecraft.server.v1_8_R1.TileEntityEnchantTable;
 import net.minecraft.server.v1_8_R1.TileEntityFurnace;
 import net.minecraft.server.v1_8_R1.TileEntityHopper;
 
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.entity.Player;
@@ -42,6 +43,11 @@ public class Container {
 		for (int i = 0; i < jsonarray.length(); i++) {
 			this.users.add(jsonarray.get(i).toString());
 		}
+	}
+
+	//getBlock method
+	public Block getBlock() {
+		return this.block;
 	}
 
 	// getRawdata methods
@@ -189,6 +195,14 @@ public class Container {
 
 	public static boolean isUser(Block block, Player player) {
 		return getUsers(getRawData(block)).contains(player.getUniqueId().toString());
+	}
+
+	public Material getType() {
+		return this.block.getType();
+	}
+
+	public static Material getType(Container container) {
+		return container.getBlock().getType();
 	}
 
 }
