@@ -2,32 +2,37 @@ package me.Brian.NoLock.API;
 
 import me.Brian.NoLock.Main;
 
+import org.bukkit.Material;
 import org.bukkit.plugin.Plugin;
 
 public class Config {
-	Plugin plugin = Main.getPlugin();
+	static Plugin plugin = Main.getPlugin();
 
-	public boolean ExplotionProtectionAll() {
+	public static boolean ExplotionProtectionAll() {
 		return plugin.getConfig().getBoolean("Configs.explosion-protection-all");
 	}
-	
-	public boolean AdminSnoop(){
+
+	public static boolean AdminSnoop() {
 		return plugin.getConfig().getBoolean("Configs.allow-admin-snoop");
 	}
-	
-	public boolean AdminBreak() {
+
+	public static boolean AdminBreak() {
 		return plugin.getConfig().getBoolean("Configs.allow-admin-break");
 	}
-	
-	public boolean EnableQuickProtection() {
-		return plugin.getConfig().getBoolean("Configs.enable-quick-protect");
+
+	public static boolean EnableQuickProtection() {
+		return plugin.getConfig().getBoolean("Configs.enable-quick-protect.enable");
 	}
-	
-	public boolean EnableProtocollibNameOveride() {
+
+	public static Material getQuickProtectMaterial() {
+		return Material.getMaterial(plugin.getConfig().getString("Configs.enable-quick-protect.item"));
+	}
+
+	public static boolean EnableProtocollibNameOveride() {
 		return plugin.getConfig().getBoolean("Configs.enable-protocollib-name-overide");
 	}
-	
-	public boolean HopperBlocking() {
+
+	public static boolean HopperBlocking() {
 		return plugin.getConfig().getBoolean("Configs.enable-hopper-blocking");
 	}
 }

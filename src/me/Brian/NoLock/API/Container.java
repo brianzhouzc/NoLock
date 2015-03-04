@@ -15,6 +15,7 @@ import net.minecraft.server.v1_8_R1.TileEntityHopper;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
@@ -26,26 +27,30 @@ public class Container {
 	String rawdata;
 	String owner;
 	List<String> users = new ArrayList<String>();
-
-	public Container() {
-		this.block = null;
-		this.rawdata = null;
-		this.owner = null;
-		this.users = null;
-	}
+	String extradata;
 
 	public Container(Block block) {
 		this.block = block;
 		this.rawdata = getRawData(block);
 		JSONObject jsonobj = new JSONObject(this.rawdata);
 		this.owner = jsonobj.getString("Owner");
-		JSONArray jsonarray = new JSONArray(jsonobj.get("Users").toString());
-		for (int i = 0; i < jsonarray.length(); i++) {
-			this.users.add(jsonarray.get(i).toString());
+		if (!jsonobj.isNull("Users")) {
+			JSONArray jsonarray = new JSONArray(jsonobj.get("Users").toString());
+			for (int i = 0; i < jsonarray.length(); i++) {
+				this.users.add(jsonarray.get(i).toString());
+			}
+		} else {
+			this.users = null;
+		}
+
+		if (!jsonobj.isNull("ExtraData")) {
+			this.extradata = jsonobj.getString("ExtraData");
+		} else {
+			this.extradata = null;
 		}
 	}
 
-	//getBlock method
+	// getBlock method
 	public Block getBlock() {
 		return this.block;
 	}
@@ -82,7 +87,7 @@ public class Container {
 
 	public static List<String> getUsers(String rawdata) {
 		JSONObject jsonobj = new JSONObject(rawdata);
-		if (jsonobj.has("Users")) {
+		if (!jsonobj.isNull("Users")) {
 			JSONArray jsonarray = new JSONArray(jsonobj.get("Users").toString());
 			List<String> users = new ArrayList<String>();
 			for (int i = 0; i < jsonarray.length(); i++) {
@@ -91,6 +96,20 @@ public class Container {
 			return users;
 		}
 		return null;
+	}
+
+	// getExtraData methods
+	public String getExtraData() {
+		return this.extradata;
+	}
+
+	public static String getExtraData(String rawdata) {
+		JSONObject jsonobj = new JSONObject(rawdata);
+		if (!jsonobj.isNull("ExtraData")) {
+			return jsonobj.getString("ExtraData");
+		} else {
+			return null;
+		}
 	}
 
 	// setRawData methods
@@ -128,12 +147,11 @@ public class Container {
 		if (block != null && owner != null) {
 			JSONStringer stringer = new JSONStringer();
 			stringer.object().key("Owner").value(owner);
-			if (users != null) {
-				stringer.key("Users").value(users);
-			}
-			if (extradata != null) {
-				stringer.object().key("Extradata").value(extradata);
-			}
+
+			stringer.key("Users").value(users);
+
+			stringer.key("Extradata").value(extradata);
+
 			setRawData(block, stringer.endObject().toString());
 			return true;
 		}
@@ -194,7 +212,11 @@ public class Container {
 	}
 
 	public static boolean isUser(Block block, Player player) {
-		return getUsers(getRawData(block)).contains(player.getUniqueId().toString());
+		if (getUsers(getRawData(block)) == null) {
+			return false;
+		} else {
+			return getUsers(getRawData(block)).contains(player.getUniqueId().toString());
+		}
 	}
 
 	public Material getType() {

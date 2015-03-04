@@ -1,0 +1,9 @@
+Configs:
+  explosion-protection-all: true
+  allow-admin-snoop: true
+  allow-admin-break: ture
+  enable-quick-protect:
+    enable: true
+    item: 'STICK'
+  enable-protocollib-name-overide: true
+  enable-hopper-blocking: true
