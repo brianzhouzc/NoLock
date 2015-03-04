@@ -1,10 +1,13 @@
 package me.Brian.NoLock.Listener;
 
+import java.util.UUID;
+
 import me.Brian.NoLock.API.Config;
 import me.Brian.NoLock.API.Container;
 import net.minecraft.server.v1_8_R1.INamableTileEntity;
 import net.minecraft.server.v1_8_R1.TileEntity;
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.entity.Player;
@@ -24,8 +27,18 @@ public class BlockBreakListener implements Listener {
 			if (Container.isContainer(block)) {
 				Container container = new Container(block);
 				if (!container.isOwner(player)) {
-					if (!Config.AdminBreak() && !player.isOp()) {
+					if (player.isOp()) {
+						if (Config.AdminSnoop()) {
+							// Bukkit.broadcastMessage("(Admin) [ADMIN] has broken [OWNER]'s container!".replace("[ADMIN]", player.getName()).replace("[OWNER]",
+							// Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()));
+						} else {
+							event.setCancelled(true);
+							player.sendMessage("[NoLock] You have no permission to destroy this container.");
+						}
+
+					} else {
 						event.setCancelled(true);
+						player.sendMessage("[NoLock] You have no permission to destroy this container.");
 					}
 				}
 			}

@@ -20,6 +20,8 @@ public class PlayerInteractListener implements Listener {
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
 		Player player = event.getPlayer();
+
+		// open container
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			Block block = event.getClickedBlock();
 			final CraftWorld world = (CraftWorld) block.getWorld();
@@ -32,8 +34,15 @@ public class PlayerInteractListener implements Listener {
 				if (Container.isContainer(block)) {
 					Container container = new Container(block);
 					if (!container.getOwner().equalsIgnoreCase(player.getUniqueId().toString()) && !container.getUsers().contains(player.getUniqueId().toString())) {
-						event.setCancelled(true);
-						player.sendMessage("[NoLock] You have no permission to open this container.");
+						if (player.isOp()) {
+							if (!Config.AdminSnoop()) {
+								event.setCancelled(true);
+								player.sendMessage("[NoLock] You have no permission to open this container.");
+							}
+						} else {
+							event.setCancelled(true);
+							player.sendMessage("[NoLock] You have no permission to open this container.");
+						}
 					}
 					if (container.isOwner(player)) {
 						player.sendMessage("owner");

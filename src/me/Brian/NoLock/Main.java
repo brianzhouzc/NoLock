@@ -1,5 +1,6 @@
 package me.Brian.NoLock;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 import me.Brian.NoLock.Listener.BlockBreakListener;
@@ -32,6 +33,7 @@ public class Main extends JavaPlugin implements Listener {
 		pm.registerEvents(new BlockBreakListener(), this);
 		getCommand("nolock").setExecutor(new CommandListener());
 		saveDefaultConfig();
+//		logger.info(org.bukkit.Bukkit.getOfflinePlayer(UUID.fromString("97f10862-7eef-4755-979e-238253cf4677")).getName());
 		logger.info("[NoLock] NoLock " + getDescription().getVersion() + " successfuly loaded!");
 	}
 
