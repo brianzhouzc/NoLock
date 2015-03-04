@@ -8,7 +8,6 @@ import me.Brian.NoLock.API.Container;
 import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 public class ExplosionListener implements Listener {
@@ -23,5 +22,6 @@ public class ExplosionListener implements Listener {
 				deniedblocklist.add(block);
 			}
 		}
+		list.removeAll(deniedblocklist);
 	}
 }
