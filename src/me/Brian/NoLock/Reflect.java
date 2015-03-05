@@ -1,10 +1,7 @@
 package me.Brian.NoLock;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,7 +29,7 @@ public class Reflect extends JavaPlugin implements Listener {
 	static String bukkit = "org.bukkit.craftbukkit.";
 
 	public void onEnable() {
-		this.version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+		Reflect.version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
 		this.getServer().getPluginManager().registerEvents(this, this);
 	}
 
@@ -49,10 +46,10 @@ public class Reflect extends JavaPlugin implements Listener {
 	}
 
 	public static void setName(String name, Block block) {
-		int x = block.getX(), y = block.getY(), z = block.getZ();
-		World world = block.getWorld();
+		block.getZ();
+		block.getWorld();
 		try {
-			Class<?> clCraftWorld = Class.forName(bukkit + version + ".CraftWorld");
+			Class.forName(bukkit + version + ".CraftWorld");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
