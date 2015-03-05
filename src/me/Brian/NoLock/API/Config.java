@@ -21,15 +21,19 @@ public class Config {
 	}
 
 	public static boolean EnableQuickProtection() {
-		return plugin.getConfig().getBoolean("Configs.enable-quick-protect.enable");
+		return plugin.getConfig().getBoolean("Configs.quick-protect.enable");
 	}
 
 	public static Material getQuickProtectMaterial() {
-		return Material.getMaterial(plugin.getConfig().getString("Configs.enable-quick-protect.item"));
+		return Material.getMaterial(plugin.getConfig().getString("Configs.quick-protect.item"));
 	}
 
 	public static boolean EnableProtocollibNameOveride() {
-		return plugin.getConfig().getBoolean("Configs.enable-protocollib-name-overide");
+		return plugin.getConfig().getBoolean("Configs.protocollib-name-overide.enable");
+	}
+	
+	public static boolean EnableProtocollibNameOverideUsersName() {
+		return plugin.getConfig().getBoolean("Configs.protocollib-name-overide.use_users_name");
 	}
 
 	public static boolean HopperBlocking() {

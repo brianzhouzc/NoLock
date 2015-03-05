@@ -62,7 +62,7 @@ public class PlayerInteractListener implements Listener {
 			if (Config.EnableQuickProtection()) {
 				if (player.getItemInHand().getType() == Config.getQuickProtectMaterial()) {
 					if (!Container.isContainer(block) && nmsTileEntity instanceof INamableTileEntity) {
-						Container.setRawData(block, player.getUniqueId().toString(), null, null);
+						Container.setRawData(block, player.getUniqueId().toString(), null, null, null);
 						event.setCancelled(true);
 						player.sendMessage("[NoLock] You protected this container!");
 						// return;

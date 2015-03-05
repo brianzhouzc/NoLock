@@ -27,6 +27,8 @@ public class Container {
 	String rawdata;
 	String owner;
 	List<String> users = new ArrayList<String>();
+	String name;
+	String type;
 	String extradata;
 
 	public Container(Block block) {
@@ -41,6 +43,12 @@ public class Container {
 			}
 		} else {
 			this.users = null;
+		}
+
+		if (!jsonobj.isNull("Name")) {
+			this.name = jsonobj.getString("Name");
+		} else {
+			this.name = null;
 		}
 
 		if (!jsonobj.isNull("ExtraData")) {
@@ -98,6 +106,19 @@ public class Container {
 		return null;
 	}
 
+	public String getName() {
+		return this.name;
+	}
+
+	public static String getName(String rawdata) {
+		JSONObject jsonobj = new JSONObject(rawdata);
+		if (!jsonobj.isNull("Name")) {
+			return jsonobj.getString("Name");
+		} else {
+			return null;
+		}
+	}
+
 	// getExtraData methods
 	public String getExtraData() {
 		return this.extradata;
@@ -143,12 +164,14 @@ public class Container {
 		return false;
 	}
 
-	public static boolean setRawData(Block block, String owner, List<String> users, Object extradata) {
+	public static boolean setRawData(Block block, String owner, List<String> users, String name, Object extradata) {
 		if (block != null && owner != null) {
 			JSONStringer stringer = new JSONStringer();
 			stringer.object().key("Owner").value(owner);
 
 			stringer.key("Users").value(users);
+
+			stringer.key("Name").value(name);
 
 			stringer.key("Extradata").value(extradata);
 
@@ -189,6 +212,17 @@ public class Container {
 	public static boolean isContainer(Block block) {
 		try {
 			JSONObject jsonobj = new JSONObject(getRawData(block));
+			if (jsonobj.has("Owner")) {
+				return true;
+			}
+		} catch (Exception e) {
+		}
+		return false;
+	}
+
+	public static boolean isContainer(String rawdata) {
+		try {
+			JSONObject jsonobj = new JSONObject(rawdata);
 			if (jsonobj.has("Owner")) {
 				return true;
 			}

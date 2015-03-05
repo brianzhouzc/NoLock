@@ -2,8 +2,10 @@ Configs:
   explosion-protection-all: true
   allow-admin-snoop: true
   allow-admin-break: ture
-  enable-quick-protect:
+  quick-protect:
     enable: true
     item: 'STICK'
-  enable-protocollib-name-overide: true
+  protocollib-name-overide:
+    enable: true
+    use_users_name: true
   enable-hopper-blocking: true
