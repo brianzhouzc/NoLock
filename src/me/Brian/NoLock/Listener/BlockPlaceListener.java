@@ -6,7 +6,6 @@ import net.minecraft.server.v1_8_R1.TileEntity;
 import net.minecraft.server.v1_8_R1.TileEntityChest;
 import net.minecraft.server.v1_8_R1.TileEntityHopper;
 
-import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;

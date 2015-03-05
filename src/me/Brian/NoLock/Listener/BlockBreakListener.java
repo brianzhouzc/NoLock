@@ -1,13 +1,10 @@
 package me.Brian.NoLock.Listener;
 
-import java.util.UUID;
-
 import me.Brian.NoLock.API.Config;
 import me.Brian.NoLock.API.Container;
 import net.minecraft.server.v1_8_R1.INamableTileEntity;
 import net.minecraft.server.v1_8_R1.TileEntity;
 
-import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.entity.Player;

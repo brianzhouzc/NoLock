@@ -15,7 +15,6 @@ import net.minecraft.server.v1_8_R1.TileEntityHopper;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
