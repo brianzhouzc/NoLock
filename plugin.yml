@@ -1,8 +1,12 @@
 name: NoLock
 version: 0.1.0
 main: me.Brian.NoLock.Main
-author: 1461748123
-collaborator: connection-lost
+author: [1461748123, connection-lost]
+depend: [ProtocolLib]
+
+description:
+  Lock your chest in Minecraft, no other world components or database is needed. Uses block metadata.
+
 commands:
   nolock:
     description: Main command
