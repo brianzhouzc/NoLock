@@ -35,7 +35,7 @@ public class Main extends JavaPlugin implements Listener {
 	static Logger logger = null;
 
 	public static void main(String[] args) {
-		List users = new ArrayList<>();
+		List<String> users = new ArrayList<String>();
 		String titile;
 		String owner = ChatColor.RED + "030";
 		users.add("Brian14617481234567890");
