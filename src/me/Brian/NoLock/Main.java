@@ -10,6 +10,7 @@ import me.Brian.NoLock.API.Container;
 import me.Brian.NoLock.Listener.BlockBreakListener;
 import me.Brian.NoLock.Listener.BlockPlaceListener;
 import me.Brian.NoLock.Listener.CommandListener;
+import me.Brian.NoLock.Listener.InventoryMoveItemListener;
 import me.Brian.NoLock.Listener.PlayerInteractListener;
 import me.Brian.NoLock.Listener.ExplosionListener;
 import me.Brian.NoLock.Wrapper.WrapperPlayServerOpenWindow;
@@ -73,6 +74,7 @@ public class Main extends JavaPlugin implements Listener {
 		pm.registerEvents(new BlockPlaceListener(), this);
 		pm.registerEvents(new ExplosionListener(), this);
 		pm.registerEvents(new BlockBreakListener(), this);
+		pm.registerEvents(new InventoryMoveItemListener(), this);
 		getCommand("nolock").setExecutor(new CommandListener());
 		saveDefaultConfig();
 
