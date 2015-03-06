@@ -49,10 +49,14 @@ public class BlockPlaceListener implements Listener {
 			}
 
 			if (nmsTileEntity instanceof TileEntityHopper) {
-				Block up = block.getRelative(BlockFace.UP);
-				if (Container.isContainer(up)) {
-					if (!Container.isOwner(up, player) && !Container.isUser(up, player)) {
-						event.setCancelled(true);
+				Block blockrelated[] = { block.getRelative(BlockFace.UP), block.getRelative(BlockFace.DOWN), block.getRelative(BlockFace.NORTH), block.getRelative(BlockFace.SOUTH),
+						block.getRelative(BlockFace.EAST), block.getRelative(BlockFace.WEST) };
+
+				for (int i = 0; i < blockrelated.length; i++) {
+					if (Container.isContainer(blockrelated[i])) {
+						if (!Container.isOwner(blockrelated[i], player) && !Container.isUser(blockrelated[i], player)) {
+							event.setCancelled(true);
+						}
 					}
 				}
 			}
