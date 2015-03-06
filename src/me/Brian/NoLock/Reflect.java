@@ -84,7 +84,7 @@ public class Reflect extends JavaPlugin implements Listener {
 			Method mGetTile = clCraftWorld.getMethod("getTileEntityAt", Integer.TYPE, Integer.TYPE, Integer.TYPE);
 
 			Class<?> clTileEntity = Class.forName(minecraft + version + ".INamableTileEntity");
-			Method mGetName = clTileEntity.getMethod("getName", null);
+			Method mGetName = clTileEntity.getMethod("getName");
 
 			// if (mGetTile.invoke(world, x, y, z) instanceof INamableTileEntity) {
 			try {
