@@ -155,8 +155,8 @@ public class Main extends JavaPlugin implements Listener {
 					}
 				});
 			} else {
-				logger.warning("[NoLock] Can't found ProtocolLib! Disabling plugin... Please install ProtocolLib or change settings in config file.");
-				getPluginManager().disablePlugins();
+				logger.severe("[NoLock] Can't found ProtocolLib! Disabling plugin... Please install ProtocolLib or change settings in config file.");
+				getPluginManager().disablePlugin(this);
 				return;
 			}
 			logger.info("[NoLock] NoLock " + getDescription().getVersion() + " successfuly loaded!");
