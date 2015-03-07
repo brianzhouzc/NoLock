@@ -1,6 +1,7 @@
 package me.Brian.NoLock.Listener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 import me.Brian.NoLock.API.NoLock;
@@ -29,7 +30,8 @@ public class CommandListener implements CommandExecutor {
 					break;
 				case 1:
 					if (args[0].equalsIgnoreCase("lock")) {
-						Block block = player.getTargetBlock(null, 5);
+						HashSet<Byte> nullset = new HashSet<Byte>();
+						Block block = player.getTargetBlock(nullset, 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (!NoLock.isContainer(block)) {
 								if (NoLock.setRawData(block, player.getUniqueId().toString(), null, null, null)) {
@@ -43,7 +45,8 @@ public class CommandListener implements CommandExecutor {
 						}
 
 					} else if (args[0].equalsIgnoreCase("info")) {
-						Block block = player.getTargetBlock(null, 5);
+						HashSet<Byte> nullset = new HashSet<Byte>();
+						Block block = player.getTargetBlock(nullset, 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (NoLock.isContainer(block)) {
 								NoLock container = new NoLock(block);
