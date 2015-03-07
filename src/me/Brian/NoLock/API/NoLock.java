@@ -70,7 +70,6 @@ public class NoLock {
 	public static String getRawData(Block block) {
 		final CraftWorld world = (CraftWorld) block.getWorld();
 		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
-
 		if (nmsTileEntity instanceof INamableTileEntity) {
 			return ((INamableTileEntity) nmsTileEntity).getName();
 		}
