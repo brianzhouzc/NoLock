@@ -259,4 +259,14 @@ public class NoLock {
 		return container.getBlock().getType();
 	}
 
+	public static boolean isNamableTileEntity(Block block) {
+		final CraftWorld world = (CraftWorld) block.getWorld();
+		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
+
+		if (nmsTileEntity instanceof INamableTileEntity) {
+			return true;
+		}
+		return false;
+	}
+
 }
