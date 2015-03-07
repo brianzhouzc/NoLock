@@ -9,7 +9,7 @@ import me.Brian.NoLock.API.Config;
 import me.Brian.NoLock.API.Container;
 import me.Brian.NoLock.Listener.BlockBreakListener;
 import me.Brian.NoLock.Listener.BlockPlaceListener;
-import me.Brian.NoLock.Listener.ChestPacketListener;
+import me.Brian.NoLock.Listener.ContainerPacketListener;
 import me.Brian.NoLock.Listener.CommandListener;
 import me.Brian.NoLock.Listener.PlayerInteractListener;
 import me.Brian.NoLock.Listener.ExplosionListener;
@@ -35,7 +35,7 @@ public class Main extends JavaPlugin implements Listener {
 	static PluginManager pm = null;
 	static Logger logger = null;
 	
-	static ChestPacketListener pl;
+	static ContainerPacketListener pl;
 
 	public static void main(String[] args) {
 		List<String> users = new ArrayList<String>();
@@ -81,7 +81,7 @@ public class Main extends JavaPlugin implements Listener {
 
 		if (Config.EnableProtocollibNameOveride()) {
 			if (getPluginManager().getPlugin("ProtocolLib") != null) {
-				pl = new ChestPacketListener();
+				pl = new ContainerPacketListener();
 				ProtocolLibrary.getProtocolManager().addPacketListener(pl);
 			} else {
 				logger.severe("[NoLock] Can't found ProtocolLib! Disabling plugin... Please install ProtocolLib or change settings in config file.");

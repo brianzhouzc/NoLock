@@ -18,7 +18,7 @@ import com.comphenix.protocol.events.PacketListener;
 import com.comphenix.protocol.injector.GamePhase;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
-public class ChestPacketListener implements PacketListener{
+public class ContainerPacketListener implements PacketListener{
 	
 	public Plugin getPlugin() {
 		return Bukkit.getPluginManager().getPlugin("NoLock");
