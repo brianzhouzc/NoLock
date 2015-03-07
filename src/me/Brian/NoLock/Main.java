@@ -91,6 +91,10 @@ public class Main extends JavaPlugin implements Listener {
 			logger.info("[NoLock] NoLock " + getDescription().getVersion() + " successfuly loaded!");
 		}
 	}
+	
+	public void onDisable(){
+		ProtocolLibrary.getProtocolManager().removePacketListener(pl);
+	}
 
 	public static Plugin getPlugin() {
 		return plugin;
