@@ -33,17 +33,19 @@ public class PlayerInteractListener implements Listener {
 			if (nmsTileEntity instanceof INamableTileEntity) {
 				if (NoLock.isContainer(block)) {
 					NoLock container = new NoLock(block);
-					if (!container.getOwner().equalsIgnoreCase(player.getUniqueId().toString()) && !container.getUsers().contains(player.getUniqueId().toString())) {
-						if (player.isOp()) {
-							if (!Config.AdminSnoop()) {
-								event.setCancelled(true);
-								player.sendMessage("[NoLock] You have no permission to open this container.");
-							}
-						} else {
-							event.setCancelled(true);
-							player.sendMessage("[NoLock] You have no permission to open this container.");
-						}
+					boolean cancel = true;
+					if (container.getOwner().equalsIgnoreCase(player.getUniqueId().toString())) {
+						cancel = false;
+					} else if (container.getUsers() != null && container.getUsers().contains(player.getUniqueId())) {
+						cancel = false;
+					} else if (player.isOp() && Config.AdminSnoop()) {
+						cancel = false;
 					}
+					event.setCancelled(cancel);
+					if (cancel) {
+						player.sendMessage("[NoLock] You have no permission to open this container!");
+					}
+
 					if (container.isOwner(player)) {
 						player.sendMessage("owner");
 					}

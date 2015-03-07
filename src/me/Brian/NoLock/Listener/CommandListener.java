@@ -48,6 +48,12 @@ public class CommandListener implements CommandExecutor {
 							if (NoLock.isContainer(block)) {
 								NoLock container = new NoLock(block);
 								player.sendMessage("[NoLock] This container is locked by " + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())));
+								if (container.getUsers() != null) {
+									player.sendMessage("[NoLock] There are currently " + container.getUsers().size() + " users on this container:");
+									for (String uuid : container.getUsers()) {
+										player.sendMessage("[NoLock] " + Bukkit.getOfflinePlayer(UUID.fromString(uuid)));
+									}
+								}
 							}
 						}
 					} else if (args[0].equalsIgnoreCase("user")) {
