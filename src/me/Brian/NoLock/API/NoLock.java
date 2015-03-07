@@ -21,7 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
-public class Container {
+public class NoLock {
 	Block block;
 	String rawdata;
 	String owner;
@@ -30,7 +30,7 @@ public class Container {
 	String type;
 	String extradata;
 
-	public Container(Block block) {
+	public NoLock(Block block) {
 		this.block = block;
 		this.rawdata = getRawData(block);
 		JSONObject jsonobj = new JSONObject(this.rawdata);
@@ -256,7 +256,7 @@ public class Container {
 		return this.block.getType();
 	}
 
-	public static Material getType(Container container) {
+	public static Material getType(NoLock container) {
 		return container.getBlock().getType();
 	}
 

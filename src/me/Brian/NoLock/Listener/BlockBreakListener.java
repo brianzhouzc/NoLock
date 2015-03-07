@@ -1,7 +1,7 @@
 package me.Brian.NoLock.Listener;
 
 import me.Brian.NoLock.API.Config;
-import me.Brian.NoLock.API.Container;
+import me.Brian.NoLock.API.NoLock;
 import net.minecraft.server.v1_8_R1.INamableTileEntity;
 import net.minecraft.server.v1_8_R1.TileEntity;
 
@@ -21,8 +21,8 @@ public class BlockBreakListener implements Listener {
 		final CraftWorld craftworld = (CraftWorld) block.getWorld();
 		final TileEntity nmsTileEntity = craftworld.getTileEntityAt(block.getX(), block.getY(), block.getZ());
 		if (nmsTileEntity instanceof INamableTileEntity) {
-			if (Container.isContainer(block)) {
-				Container container = new Container(block);
+			if (NoLock.isContainer(block)) {
+				NoLock container = new NoLock(block);
 				if (!container.isOwner(player)) {
 					if (player.isOp()) {
 						if (Config.AdminSnoop()) {

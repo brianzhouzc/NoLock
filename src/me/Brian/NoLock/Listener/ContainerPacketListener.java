@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import me.Brian.NoLock.API.Config;
-import me.Brian.NoLock.API.Container;
+import me.Brian.NoLock.API.NoLock;
 import me.Brian.NoLock.Wrapper.WrapperPlayServerOpenWindow;
 
 import org.bukkit.Bukkit;
@@ -45,17 +45,17 @@ public class ContainerPacketListener implements PacketListener{
 		String rawdata = wp.getWindowTitle().getJson().toString().replaceAll("\\\\\"", "\"").replace("\"{", "{").replace("}\"", "}");
 		Bukkit.broadcastMessage(rawdata);
 		// Bukkit.broadcastMessage(wp.getInventoryType());
-		if (Container.isContainer(rawdata)) {
-			if (Container.getName(rawdata) != null) {
-				wp.setWindowTitle(WrappedChatComponent.fromJson("\"" + Container.getName(rawdata) + "\""));
+		if (NoLock.isContainer(rawdata)) {
+			if (NoLock.getName(rawdata) != null) {
+				wp.setWindowTitle(WrappedChatComponent.fromJson("\"" + NoLock.getName(rawdata) + "\""));
 			} else {
 				String invtype = wp.getInventoryType();
 				String rawname = null;
 
 				if (Config.EnableProtocollibNameOverideUsersName()) {
 					String titile;
-					String owner = ChatColor.RED + Bukkit.getOfflinePlayer(UUID.fromString(Container.getOwner(rawdata))).getName();
-					List<String> users = Container.getUsers(rawdata);
+					String owner = ChatColor.RED + Bukkit.getOfflinePlayer(UUID.fromString(NoLock.getOwner(rawdata))).getName();
+					List<String> users = NoLock.getUsers(rawdata);
 					titile = owner;
 					if (users != null) {
 						titile = titile + ChatColor.RESET;

@@ -1,6 +1,6 @@
 package me.Brian.NoLock.Listener;
 
-import me.Brian.NoLock.API.Container;
+import me.Brian.NoLock.API.NoLock;
 import net.minecraft.server.v1_8_R1.INamableTileEntity;
 import net.minecraft.server.v1_8_R1.TileEntity;
 import net.minecraft.server.v1_8_R1.TileEntityChest;
@@ -24,7 +24,7 @@ public class BlockPlaceListener implements Listener {
 		if (nmsTileEntity instanceof INamableTileEntity) {
 			Player player = event.getPlayer();
 
-			if (Container.isContainer(event.getBlock())) {
+			if (NoLock.isContainer(event.getBlock())) {
 				event.setCancelled(true);
 				return;
 			}
@@ -32,13 +32,13 @@ public class BlockPlaceListener implements Listener {
 			if (nmsTileEntity instanceof TileEntityChest) {
 				Block blockrelated[] = { block.getRelative(BlockFace.NORTH), block.getRelative(BlockFace.SOUTH), block.getRelative(BlockFace.EAST), block.getRelative(BlockFace.WEST) };
 				for (int i = 0; i < blockrelated.length; i++) {
-					if (Container.isContainer(blockrelated[i])) {
+					if (NoLock.isContainer(blockrelated[i])) {
 						// player.sendMessage("isContainer");
-						if (Container.isOwner(blockrelated[i], player)) {
+						if (NoLock.isOwner(blockrelated[i], player)) {
 							// player.sendMessage("isOwner");
 							if (block.getType() == blockrelated[i].getType()) {
 								// player.sendMessage("sameType");
-								Container.setRawData(block, Container.getRawData(blockrelated[i]));
+								NoLock.setRawData(block, NoLock.getRawData(blockrelated[i]));
 							}
 						} else if (block.getType() == blockrelated[i].getType()) {
 							// player.sendMessage("setCancelled");
@@ -53,8 +53,8 @@ public class BlockPlaceListener implements Listener {
 						block.getRelative(BlockFace.EAST), block.getRelative(BlockFace.WEST) };
 
 				for (int i = 0; i < blockrelated.length; i++) {
-					if (Container.isContainer(blockrelated[i])) {
-						if (!Container.isOwner(blockrelated[i], player) && !Container.isUser(blockrelated[i], player)) {
+					if (NoLock.isContainer(blockrelated[i])) {
+						if (!NoLock.isOwner(blockrelated[i], player) && !NoLock.isUser(blockrelated[i], player)) {
 							event.setCancelled(true);
 						}
 					}

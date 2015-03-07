@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import me.Brian.NoLock.API.Config;
-import me.Brian.NoLock.API.Container;
+import me.Brian.NoLock.API.NoLock;
 import me.Brian.NoLock.Listener.BlockBreakListener;
 import me.Brian.NoLock.Listener.BlockPlaceListener;
 import me.Brian.NoLock.Listener.ContainerPacketListener;

@@ -1,6 +1,6 @@
 package me.Brian.NoLock.Listener;
 
-import me.Brian.NoLock.API.Container;
+import me.Brian.NoLock.API.NoLock;
 import me.Brian.NoLock.API.Config;
 
 import net.minecraft.server.v1_8_R1.INamableTileEntity;
@@ -27,12 +27,12 @@ public class PlayerInteractListener implements Listener {
 			final CraftWorld world = (CraftWorld) block.getWorld();
 			final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
 			if (event.getPlayer().isSneaking()) {
-				event.getPlayer().sendMessage(Container.getRawData(event.getClickedBlock()));
+				event.getPlayer().sendMessage(NoLock.getRawData(event.getClickedBlock()));
 				return;
 			}
 			if (nmsTileEntity instanceof INamableTileEntity) {
-				if (Container.isContainer(block)) {
-					Container container = new Container(block);
+				if (NoLock.isContainer(block)) {
+					NoLock container = new NoLock(block);
 					if (!container.getOwner().equalsIgnoreCase(player.getUniqueId().toString()) && !container.getUsers().contains(player.getUniqueId().toString())) {
 						if (player.isOp()) {
 							if (!Config.AdminSnoop()) {
@@ -61,8 +61,8 @@ public class PlayerInteractListener implements Listener {
 
 			if (Config.EnableQuickProtection()) {
 				if (player.getItemInHand().getType() == Config.getQuickProtectMaterial()) {
-					if (!Container.isContainer(block) && nmsTileEntity instanceof INamableTileEntity) {
-						Container.setRawData(block, player.getUniqueId().toString(), null, null, null);
+					if (!NoLock.isContainer(block) && nmsTileEntity instanceof INamableTileEntity) {
+						NoLock.setRawData(block, player.getUniqueId().toString(), null, null, null);
 						event.setCancelled(true);
 						player.sendMessage("[NoLock] You protected this container!");
 						// return;
@@ -71,19 +71,19 @@ public class PlayerInteractListener implements Listener {
 			}
 
 			if (event.getPlayer().getItemInHand().getType().equals(Material.BLAZE_ROD)) {
-				if (Container.setRawData(event.getClickedBlock(), "{\"Owner\":\"" + event.getPlayer().getUniqueId().toString()
+				if (NoLock.setRawData(event.getClickedBlock(), "{\"Owner\":\"" + event.getPlayer().getUniqueId().toString()
 						+ "\",\"Users\":[\"69abcfbf-991d-42a3-8c1d-10787eae7949\",\"9e550853-9826-40d4-b5d5-29f5653aaf0e\",\"fa3c1f7a-f18b-4629-b077-4e7a2c333f04\"]}")) {
 					event.getPlayer().sendMessage("success! set owner to " + event.getPlayer().getUniqueId().toString());
 					event.setCancelled(true);
 				}
 			} else if (event.getPlayer().getItemInHand().getType().equals(Material.STRING)) {
-				if (Container.setRawData(event.getClickedBlock(), "{\"Owner\":\"" + "69abcfbf-991d-42a3-8c1d-10787eae7949" + "\",\"Users\":[\"" + event.getPlayer().getUniqueId().toString()
+				if (NoLock.setRawData(event.getClickedBlock(), "{\"Owner\":\"" + "69abcfbf-991d-42a3-8c1d-10787eae7949" + "\",\"Users\":[\"" + event.getPlayer().getUniqueId().toString()
 						+ "\",\"9e550853-9826-40d4-b5d5-29f5653aaf0e\",\"fa3c1f7a-f18b-4629-b077-4e7a2c333f04\"]}")) {
 					event.getPlayer().sendMessage("success! set users to " + event.getPlayer().getUniqueId().toString());
 					event.setCancelled(true);
 				}
 			} else if (event.getPlayer().getItemInHand().getType().equals(Material.NETHER_STAR)) {
-				if (Container.setRawData(event.getClickedBlock(), "{\"Owner\":\"" + "fa3c1f7a-f18b-4629-b077-4e7a2c333f04"
+				if (NoLock.setRawData(event.getClickedBlock(), "{\"Owner\":\"" + "fa3c1f7a-f18b-4629-b077-4e7a2c333f04"
 						+ "\",\"Users\":[\"9e550853-9826-40d4-b5d5-29f5653aaf0e\",\"fa3c1f7a-f18b-4629-b077-4e7a2c333f04\"]}")) {
 					event.getPlayer().sendMessage("success! set user and owner to someone else");
 					event.setCancelled(true);
