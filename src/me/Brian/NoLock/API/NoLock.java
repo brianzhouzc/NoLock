@@ -188,7 +188,9 @@ public class NoLock {
 		try {
 			JSONObject jsonobj = new JSONObject(rawdata);
 			if (getUsers(rawdata) != null) {
-				jsonobj.put("Users", users.add(jsonobj.get("Users").toString()));
+				ArrayList<String> userslist = new ArrayList<String>(getUsers(rawdata));
+				userslist.addAll(users);
+				jsonobj.put("Users", userslist);
 			} else {
 				jsonobj.put("Users", users);
 			}
@@ -221,8 +223,10 @@ public class NoLock {
 	public static boolean isContainer(String rawdata) {
 		try {
 			JSONObject jsonobj = new JSONObject(rawdata);
-			if (jsonobj.has("Owner")) {
-				return true;
+			if (jsonobj.has("Owner") && jsonobj.has("Users") && jsonobj.has("Name") && jsonobj.has("Extradata")) {
+				if (jsonobj.get("Owner") != null) {
+					return true;
+				}
 			}
 		} catch (Exception e) {
 		}

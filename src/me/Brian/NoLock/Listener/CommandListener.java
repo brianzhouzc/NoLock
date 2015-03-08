@@ -1,14 +1,15 @@
 package me.Brian.NoLock.Listener;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
 import me.Brian.NoLock.API.NoLock;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.block.Block;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,7 +27,6 @@ public class CommandListener implements CommandExecutor {
 				Player player = (Player) sender;
 
 				if (args.length == 0) {
-
 					sender.sendMessage("¡ì6[NoLock] ====== NoLock ======");
 				} else {
 					if (args[0].equalsIgnoreCase("lock")) {
@@ -68,55 +68,61 @@ public class CommandListener implements CommandExecutor {
 						}
 					} else if (args[0].equalsIgnoreCase("user")) {
 						if (args.length == 1) {
-
+							player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
 						} else if (args.length >= 2) {
 							Block block = player.getTargetBlock(null, 5);
 							if (args[1].equalsIgnoreCase("add")) {
-								// if (NoLock.isNamableTileEntity(block)) {
-								// if (NoLock.isContainer(block)) {
-								// NoLock container = new NoLock(block);
-								// if (container.getOwner().equalsIgnoreCase(player.getUniqueId().toString())) {
-								// List<String> unknowusers = new ArrayList<String>();
-								// List<String> successusers = new ArrayList<String>();
-								// List<String> successuuid = new ArrayList<String>();
-								//
-								// for (int i = 2; i < args.length; i++) {
-								// if (Bukkit.getPlayerExact(args[i]) != null) {
-								// if (container.getUsers() != null) {
-								// if (!container.getUsers().contains(Bukkit.getPlayerExact(args[i]).getUniqueId().toString())) {
-								// successusers.add(args[i]);
-								// successuuid.add(Bukkit.getPlayerExact(args[i]).getUniqueId().toString());
-								// } else {
-								// unknowusers.add(args[i]);
-								// }
-								// } else {
-								// successusers.add(args[i]);
-								// successuuid.add(Bukkit.getPlayerExact(args[i]).getUniqueId().toString());
-								// }
-								//
-								// } else {
-								// unknowusers.add(args[i]);
-								// }
-								// }
-								// if (successuuid.size() != 0) {
-								// if (container.addUsers(successuuid)) {
-								// player.sendMessage("w");
-								// }
-								// }
-								// player.sendMessage(successusers.toString());
-								// player.sendMessage(successuuid.toString());
-								// player.sendMessage(unknowusers.toString());
-								//
-								// } else {
-								// player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to edit ¡ìc" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
-								// + "'s container!");
-								// }
-								// } else {
-								// player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locket yet!");
-								// }
-								// } else {
-								// player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
-								// }
+								if (args.length > 2) {
+									if (NoLock.isNamableTileEntity(block)) {
+										if (NoLock.isContainer(block)) {
+											NoLock container = new NoLock(block);
+											if (container.getOwner().equalsIgnoreCase(player.getUniqueId().toString())) {
+												List<String> successuuid = new ArrayList<String>();
+
+												String failusers = null;
+												String successusers = null;
+
+												for (int i = 2; i < args.length; i++) {
+													OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(args[i]);
+													if (offlineplayer != null && offlineplayer.hasPlayedBefore()) {
+														if (container.getUsers() != null) {
+															if (!container.getUsers().contains(offlineplayer.getUniqueId().toString())) {
+																successusers = createString(successusers, offlineplayer.getName());
+																successuuid.add(offlineplayer.getUniqueId().toString());
+															} else {
+																failusers = createString(failusers, offlineplayer.getName());
+															}
+														} else {
+															successusers = createString(successusers, offlineplayer.getName());
+															successuuid.add(offlineplayer.getUniqueId().toString());
+														}
+													} else {
+														failusers = createString(failusers, offlineplayer.getName());
+													}
+												}
+												if (successuuid.size() != 0) {
+													container.addUsers(successuuid);
+												}
+												if (successusers != null) {
+													player.sendMessage("¡ì6[NoLock] ¡ìcSuccessfuly added player(s) " + successusers + "¡ìc to container's users list!");
+												}
+												if (failusers != null) {
+													player.sendMessage("¡ì6[NoLock] ¡ìcFailed to add player(s) " + failusers
+															+ "¡ìc to container's users list, they might be already in users list, or they never played on this server before!");
+												}
+											} else {
+												player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to edit ¡ìc" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
+														+ "'s container!");
+											}
+										} else {
+											player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locket yet!");
+										}
+									} else {
+										player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
+									}
+								} else {
+									player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
+								}
 							}
 						}
 					}
@@ -130,6 +136,14 @@ public class CommandListener implements CommandExecutor {
 			}
 		}
 		return true;
+	}
+
+	public String createString(String oldstr, String newstr) {
+		if (oldstr == null) {
+			return ChatColor.GREEN + newstr + ChatColor.RESET;
+		} else {
+			return oldstr + ", " + ChatColor.GREEN + newstr + ChatColor.RESET;
+		}
 	}
 
 	public ItemStack createItem(Material material, short damage, String name, String lore) {

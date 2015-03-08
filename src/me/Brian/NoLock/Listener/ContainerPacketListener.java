@@ -44,7 +44,6 @@ public class ContainerPacketListener implements PacketListener {
 		WrapperPlayServerOpenWindow wp = new WrapperPlayServerOpenWindow(e.getPacket());
 		String rawdata = wp.getWindowTitle().getJson().toString().replaceAll("\\\\\"", "\"").replace("\"{", "{").replace("}\"", "}");
 		Bukkit.broadcastMessage(rawdata);
-		// Bukkit.broadcastMessage(wp.getInventoryType());
 		if (NoLock.isContainer(rawdata)) {
 			if (NoLock.getName(rawdata) != null) {
 				wp.setWindowTitle(WrappedChatComponent.fromJson("\"" + NoLock.getName(rawdata) + "\""));
