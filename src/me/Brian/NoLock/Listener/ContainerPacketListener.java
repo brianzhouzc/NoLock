@@ -18,8 +18,8 @@ import com.comphenix.protocol.events.PacketListener;
 import com.comphenix.protocol.injector.GamePhase;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
-public class ContainerPacketListener implements PacketListener{
-	
+public class ContainerPacketListener implements PacketListener {
+
 	public Plugin getPlugin() {
 		return Bukkit.getPluginManager().getPlugin("NoLock");
 	}
@@ -60,8 +60,8 @@ public class ContainerPacketListener implements PacketListener{
 					if (users != null) {
 						titile = titile + ChatColor.RESET;
 						for (int i = 0; i < users.size(); i++) {
-							if (titile.length() + Bukkit.getOfflinePlayer(UUID.fromString(users.get(i))).toString().length() <= 31) {
-								titile = titile + ", " + Bukkit.getOfflinePlayer(UUID.fromString(users.get(i)));
+							if (titile.length() + Bukkit.getOfflinePlayer(UUID.fromString(users.get(i))).getName().toString().length() <= 31) {
+								titile = titile + ", " + Bukkit.getOfflinePlayer(UUID.fromString(users.get(i))).getName();
 							} else {
 								if (titile.length() <= 28) {
 									titile = titile + "...";

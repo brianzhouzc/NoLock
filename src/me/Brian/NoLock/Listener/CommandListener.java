@@ -2,6 +2,7 @@ package me.Brian.NoLock.Listener;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 import me.Brian.NoLock.API.NoLock;
@@ -24,52 +25,102 @@ public class CommandListener implements CommandExecutor {
 			if (sender instanceof Player) {
 				Player player = (Player) sender;
 
-				switch (args.length) {
-				case 0:
-					sender.sendMessage("[NoLock] ====== NoLock ======");
-					break;
-				case 1:
+				if (args.length == 0) {
+
+					sender.sendMessage("¡ì6[NoLock] ====== NoLock ======");
+				} else {
 					if (args[0].equalsIgnoreCase("lock")) {
-						HashSet<Byte> nullset = new HashSet<Byte>();
-						Block block = player.getTargetBlock(nullset, 5);
+						Block block = player.getTargetBlock(null, 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (!NoLock.isContainer(block)) {
 								if (NoLock.setRawData(block, player.getUniqueId().toString(), null, null, null)) {
-									player.sendMessage("[NoLock] You locked this container!");
+									player.sendMessage("¡ì6[NoLock] ¡ìcYou locked this container!");
 								}
 							} else {
-								player.sendMessage("[NoLock] This container is already locked!");
+								player.sendMessage("¡ì6[NoLock] ¡ìcThis container is already locked!");
 							}
 						} else {
-							player.sendMessage("[NoLock] Target block can't be lock!");
+							player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be lock!");
 						}
 
 					} else if (args[0].equalsIgnoreCase("info")) {
-						HashSet<Byte> nullset = new HashSet<Byte>();
-						Block block = player.getTargetBlock(nullset, 5);
+						player.sendMessage("yo3");
+
+						Block block = player.getTargetBlock(null, 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (NoLock.isContainer(block)) {
 								NoLock container = new NoLock(block);
-								player.sendMessage("[NoLock] This container is locked by " + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())));
+								player.sendMessage("¡ì6[NoLock] ¡ìcShowing information of your target container..");
+								player.sendMessage("¡ì6[NoLock] ¡ìcThis container is locked by ¡ìa" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName());
 								if (container.getUsers() != null) {
-									player.sendMessage("[NoLock] There are currently " + container.getUsers().size() + " users on this container:");
+									player.sendMessage("¡ì6[NoLock] ¡ìcThere are currently ¡ìa" + container.getUsers().size() + " ¡ìcuser(s) on this container:");
 									for (String uuid : container.getUsers()) {
-										player.sendMessage("[NoLock] " + Bukkit.getOfflinePlayer(UUID.fromString(uuid)));
+										player.sendMessage("¡ì6[NoLock] ¡ìa" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
 									}
+								} else {
+									player.sendMessage("¡ì6[NoLock] ¡ìcThere are currently no user on this container.");
 								}
+							} else {
+								player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locket yet!");
 							}
+						} else {
+							player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
 						}
 					} else if (args[0].equalsIgnoreCase("user")) {
 						if (args.length == 1) {
 
-						} else if (args.length == 2) {
+						} else if (args.length >= 2) {
+							Block block = player.getTargetBlock(null, 5);
 							if (args[1].equalsIgnoreCase("add")) {
-
+								// if (NoLock.isNamableTileEntity(block)) {
+								// if (NoLock.isContainer(block)) {
+								// NoLock container = new NoLock(block);
+								// if (container.getOwner().equalsIgnoreCase(player.getUniqueId().toString())) {
+								// List<String> unknowusers = new ArrayList<String>();
+								// List<String> successusers = new ArrayList<String>();
+								// List<String> successuuid = new ArrayList<String>();
+								//
+								// for (int i = 2; i < args.length; i++) {
+								// if (Bukkit.getPlayerExact(args[i]) != null) {
+								// if (container.getUsers() != null) {
+								// if (!container.getUsers().contains(Bukkit.getPlayerExact(args[i]).getUniqueId().toString())) {
+								// successusers.add(args[i]);
+								// successuuid.add(Bukkit.getPlayerExact(args[i]).getUniqueId().toString());
+								// } else {
+								// unknowusers.add(args[i]);
+								// }
+								// } else {
+								// successusers.add(args[i]);
+								// successuuid.add(Bukkit.getPlayerExact(args[i]).getUniqueId().toString());
+								// }
+								//
+								// } else {
+								// unknowusers.add(args[i]);
+								// }
+								// }
+								// if (successuuid.size() != 0) {
+								// if (container.addUsers(successuuid)) {
+								// player.sendMessage("w");
+								// }
+								// }
+								// player.sendMessage(successusers.toString());
+								// player.sendMessage(successuuid.toString());
+								// player.sendMessage(unknowusers.toString());
+								//
+								// } else {
+								// player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to edit ¡ìc" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
+								// + "'s container!");
+								// }
+								// } else {
+								// player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locket yet!");
+								// }
+								// } else {
+								// player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
+								// }
 							}
 						}
 					}
-				default:
-					break;
+
 				}
 				// Player p = (Player) sender;
 				// p.getInventory().setItem(
