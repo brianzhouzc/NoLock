@@ -44,8 +44,6 @@ public class CommandListener implements CommandExecutor {
 						}
 
 					} else if (args[0].equalsIgnoreCase("info")) {
-						player.sendMessage("yo3");
-
 						Block block = player.getTargetBlock(null, 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (NoLock.isContainer(block)) {
@@ -77,8 +75,8 @@ public class CommandListener implements CommandExecutor {
 										if (NoLock.isContainer(block)) {
 											NoLock container = new NoLock(block);
 											if (container.getOwner().equalsIgnoreCase(player.getUniqueId().toString())) {
+												
 												List<String> successuuid = new ArrayList<String>();
-
 												String failusers = null;
 												String successusers = null;
 
