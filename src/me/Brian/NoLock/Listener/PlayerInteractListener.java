@@ -43,7 +43,7 @@ public class PlayerInteractListener implements Listener {
 					}
 					event.setCancelled(cancel);
 					if (cancel) {
-						player.sendMessage("[NoLock] You have no permission to open this container!");
+						player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to open this container!");
 					}
 
 					if (container.isOwner(player)) {
@@ -66,7 +66,7 @@ public class PlayerInteractListener implements Listener {
 					if (!NoLock.isContainer(block) && nmsTileEntity instanceof INamableTileEntity) {
 						NoLock.setRawData(block, player.getUniqueId().toString(), null, null, null);
 						event.setCancelled(true);
-						player.sendMessage("[NoLock] You protected this container!");
+						player.sendMessage("¡ì6[NoLock] ¡ìcYou protected this container!");
 						// return;
 					}
 				}

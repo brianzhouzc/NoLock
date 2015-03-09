@@ -37,11 +37,11 @@ public class ContainerPacketListener implements PacketListener {
 	}
 
 	@Override
-	public void onPacketSending(PacketEvent e) {
-		if (!(e.getPacket().getType() == PacketType.Play.Server.OPEN_WINDOW))
+	public void onPacketSending(PacketEvent event) {
+		if (!(event.getPacket().getType() == PacketType.Play.Server.OPEN_WINDOW))
 			return;
 
-		WrapperPlayServerOpenWindow wp = new WrapperPlayServerOpenWindow(e.getPacket());
+		WrapperPlayServerOpenWindow wp = new WrapperPlayServerOpenWindow(event.getPacket());
 		String rawdata = wp.getWindowTitle().getJson().toString().replaceAll("\\\\\"", "\"").replace("\"{", "{").replace("}\"", "}");
 		Bukkit.broadcastMessage(rawdata);
 		if (NoLock.isContainer(rawdata)) {
@@ -52,10 +52,9 @@ public class ContainerPacketListener implements PacketListener {
 				String rawname = null;
 
 				if (Config.EnableProtocollibNameOverideUsersName()) {
-					String titile;
 					String owner = ChatColor.RED + Bukkit.getOfflinePlayer(UUID.fromString(NoLock.getOwner(rawdata))).getName();
+					String titile = owner;
 					List<String> users = NoLock.getUsers(rawdata);
-					titile = owner;
 					if (users != null) {
 						titile = titile + ChatColor.RESET;
 						for (int i = 0; i < users.size(); i++) {
@@ -73,20 +72,28 @@ public class ContainerPacketListener implements PacketListener {
 					}
 					rawname = "\"" + titile + "\"";
 				} else {
-					if (invtype.equalsIgnoreCase("minecraft:chest")) {
+					switch (invtype) {
+					case "minecraft:chest":
 						rawname = "{\"translate\":\"container.chest\"}";
-					} else if (invtype.equalsIgnoreCase("minecraft:furnace")) {
+						break;
+					case "minecraft:furnace":
 						rawname = "{\"translate\":\"container.furnace\"}";
-					} else if (invtype.equalsIgnoreCase("minecraft:dispenser")) {
+						break;
+					case "minecraft:dispenser":
 						rawname = "{\"translate\":\"container.dispenser\"}";
-					} else if (invtype.equalsIgnoreCase("minecraft:dropper")) {
+						break;
+					case "minecraft:dropper":
 						rawname = "{\"translate\":\"container.dropper\"}";
-					} else if (invtype.equalsIgnoreCase("minecraft:brewing_stand")) {
+						break;
+					case "minecraft:brewing_stand":
 						rawname = "{\"translate\":\"container.brewing\"}";
-					} else if (invtype.equalsIgnoreCase("minecraft:enchanting_table")) {
+						break;
+					case "minecraft:enchanting_table":
 						rawname = "{\"translate\":\"container.enchant\"}";
-					} else {
+						break;
+					default:
 						rawname = "\"Container\"";
+						break;
 					}
 				}
 				wp.setWindowTitle(WrappedChatComponent.fromJson(rawname));

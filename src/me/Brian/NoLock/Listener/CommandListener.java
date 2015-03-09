@@ -75,7 +75,7 @@ public class CommandListener implements CommandExecutor {
 										if (NoLock.isContainer(block)) {
 											NoLock container = new NoLock(block);
 											if (container.getOwner().equalsIgnoreCase(player.getUniqueId().toString())) {
-												
+
 												List<String> successuuid = new ArrayList<String>();
 												String failusers = null;
 												String successusers = null;
@@ -113,7 +113,7 @@ public class CommandListener implements CommandExecutor {
 														+ "'s container!");
 											}
 										} else {
-											player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locket yet!");
+											player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locked yet!");
 										}
 									} else {
 										player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
