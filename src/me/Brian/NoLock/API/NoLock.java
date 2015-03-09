@@ -208,6 +208,34 @@ public class NoLock {
 		return false;
 	}
 
+	public boolean removeUsers(List<String> users) {
+		return removeUsers(this.block, users);
+	}
+
+	public static boolean removeUsers(Block block, String rawdata, List<String> users) {
+		try {
+			JSONObject jsonobj = new JSONObject(rawdata);
+			if (getUsers(rawdata) != null) {
+				ArrayList<String> userslist = new ArrayList<String>(getUsers(rawdata));
+				userslist.removeAll(users);
+				jsonobj.put("Users", userslist);
+			} else {
+				return false;
+			}
+			return setRawData(block, jsonobj.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	public static boolean removeUsers(Block block, List<String> users) {
+		if (getRawData(block) != null) {
+			return removeUsers(block, getRawData(block), users);
+		}
+		return false;
+	}
+
 	// isContainer method
 	public static boolean isContainer(Block block) {
 		try {

@@ -51,9 +51,19 @@ public class CommandListener implements CommandExecutor {
 								player.sendMessage("¡ì6[NoLock] ¡ìcShowing information of your target container..");
 								player.sendMessage("¡ì6[NoLock] ¡ìcThis container is locked by ¡ìa" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName());
 								if (container.getUsers() != null) {
-									player.sendMessage("¡ì6[NoLock] ¡ìcThere are currently ¡ìa" + container.getUsers().size() + " ¡ìcuser(s) on this container:");
+									String currentmessage = "¡ì6[NoLock] ¡ìcThere are currently ¡ìa" + container.getUsers().size() + " ¡ìcuser(s) on this container";
+									String currentusers = null;
+									if (container.getUsers().size() == 0) {
+										currentmessage = currentmessage + ".";
+									} else {
+										currentmessage = currentmessage + ":";
+									}
+									player.sendMessage(currentmessage);
 									for (String uuid : container.getUsers()) {
-										player.sendMessage("¡ì6[NoLock] ¡ìa" + Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
+										currentusers = createString(currentusers, Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
+									}
+									if (currentusers != null) {
+										player.sendMessage("¡ì6[NoLock] ¡ìc" + currentusers);
 									}
 								} else {
 									player.sendMessage("¡ì6[NoLock] ¡ìcThere are currently no user on this container.");
@@ -85,17 +95,17 @@ public class CommandListener implements CommandExecutor {
 													if (offlineplayer != null && offlineplayer.hasPlayedBefore()) {
 														if (container.getUsers() != null) {
 															if (!container.getUsers().contains(offlineplayer.getUniqueId().toString())) {
-																successusers = createString(successusers, offlineplayer.getName());
+																successusers = createString(successusers, args[i]);
 																successuuid.add(offlineplayer.getUniqueId().toString());
 															} else {
-																failusers = createString(failusers, offlineplayer.getName());
+																failusers = createString(failusers, args[i]);
 															}
 														} else {
-															successusers = createString(successusers, offlineplayer.getName());
+															successusers = createString(successusers, args[i]);
 															successuuid.add(offlineplayer.getUniqueId().toString());
 														}
 													} else {
-														failusers = createString(failusers, offlineplayer.getName());
+														failusers = createString(failusers, args[i]);
 													}
 												}
 												if (successuuid.size() != 0) {
@@ -107,6 +117,60 @@ public class CommandListener implements CommandExecutor {
 												if (failusers != null) {
 													player.sendMessage("¡ì6[NoLock] ¡ìcFailed to add player(s) " + failusers
 															+ "¡ìc to container's users list, they might be already in users list, or they never played on this server before!");
+												}
+											} else {
+												player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to edit ¡ìc" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
+														+ "'s container!");
+											}
+										} else {
+											player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locked yet!");
+										}
+									} else {
+										player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
+									}
+								} else {
+									player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
+								}
+
+							} else if (args[1].equalsIgnoreCase("remove")) {
+								if (args.length == 1) {
+									player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
+								}
+								if (args.length > 2) {
+									if (NoLock.isNamableTileEntity(block)) {
+										if (NoLock.isContainer(block)) {
+											NoLock container = new NoLock(block);
+											if (container.getOwner().equalsIgnoreCase(player.getUniqueId().toString())) {
+
+												List<String> successuuid = new ArrayList<String>();
+												String failusers = null;
+												String successusers = null;
+												for (int i = 2; i < args.length; i++) {
+													OfflinePlayer offlineplayer = Bukkit.getOfflinePlayer(args[i]);
+													if (offlineplayer != null) {
+														if (container.getUsers() != null) {
+															if (container.getUsers().contains(offlineplayer.getUniqueId().toString())) {
+																successusers = createString(successusers, args[i]);
+																successuuid.add(offlineplayer.getUniqueId().toString());
+															} else {
+																failusers = createString(failusers, args[i]);
+															}
+														} else {
+															failusers = createString(failusers, args[i]);
+														}
+													} else {
+														failusers = createString(failusers, args[i]);
+													}
+												}
+												if (successuuid.size() != 0) {
+													container.removeUsers(successuuid);
+												}
+												if (successusers != null) {
+													player.sendMessage("¡ì6[NoLock] ¡ìcSuccessfuly removed player(s) " + successusers + "¡ìc from container's users list!");
+												}
+												if (failusers != null) {
+													player.sendMessage("¡ì6[NoLock] ¡ìcFailed to remove player(s) " + failusers
+															+ "¡ìc from container's users list, they aren't in the container's users list!");
 												}
 											} else {
 												player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to edit ¡ìc" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
