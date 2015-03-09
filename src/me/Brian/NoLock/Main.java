@@ -2,11 +2,9 @@ package me.Brian.NoLock;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.logging.Logger;
 
 import me.Brian.NoLock.API.Config;
-import me.Brian.NoLock.API.NoLock;
 import me.Brian.NoLock.Listener.BlockBreakListener;
 import me.Brian.NoLock.Listener.BlockPlaceListener;
 import me.Brian.NoLock.Listener.ContainerPacketListener;
@@ -14,22 +12,14 @@ import me.Brian.NoLock.Listener.CommandListener;
 import me.Brian.NoLock.Listener.InventoryMoveItemListener;
 import me.Brian.NoLock.Listener.PlayerInteractListener;
 import me.Brian.NoLock.Listener.ExplosionListener;
-import me.Brian.NoLock.Wrapper.WrapperPlayServerOpenWindow;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.events.ListeningWhitelist;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.events.PacketListener;
-import com.comphenix.protocol.injector.GamePhase;
-import com.comphenix.protocol.wrappers.WrappedChatComponent;
 
 public class Main extends JavaPlugin implements Listener {
 	static Plugin plugin;
