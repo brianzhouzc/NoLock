@@ -38,5 +38,5 @@ Information of a container is  stored like this:
 
 References:  
 http://wiki.vg/Protocol#Open_Window  
-https://bukkit.org/threads/custom-gui-names-non-chest.255395
+https://bukkit.org/threads/custom-gui-names-non-chest.255395  
 http://stackoverflow.com/questions/28688867/renaming-placed-containers
