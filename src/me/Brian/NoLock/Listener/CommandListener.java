@@ -1,6 +1,7 @@
 package me.Brian.NoLock.Listener;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
@@ -30,7 +31,7 @@ public class CommandListener implements CommandExecutor {
 					sender.sendMessage("¡ì6[NoLock] ====== NoLock ======");
 				} else {
 					if (args[0].equalsIgnoreCase("lock")) {
-						Block block = player.getTargetBlock(null, 5);
+						Block block = player.getTargetBlock(new HashSet<Material>(), 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (!NoLock.isContainer(block)) {
 								if (NoLock.setRawData(block, player.getUniqueId().toString(), null, null, null)) {
@@ -44,7 +45,7 @@ public class CommandListener implements CommandExecutor {
 						}
 
 					} else if (args[0].equalsIgnoreCase("info")) {
-						Block block = player.getTargetBlock(null, 5);
+						Block block = player.getTargetBlock(new HashSet<Material>(), 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (NoLock.isContainer(block)) {
 								NoLock container = new NoLock(block);
@@ -78,7 +79,7 @@ public class CommandListener implements CommandExecutor {
 						if (args.length == 1) {
 							player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
 						} else if (args.length >= 2) {
-							Block block = player.getTargetBlock(null, 5);
+							Block block = player.getTargetBlock(new HashSet<Material>(), 5);
 							if (args[1].equalsIgnoreCase("add")) {
 								if (args.length > 2) {
 									if (NoLock.isNamableTileEntity(block)) {
