@@ -1,27 +1,22 @@
 package me.Brian.NoLock.API;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.minecraft.server.v1_8_R3.INamableTileEntity;
-import net.minecraft.server.v1_8_R3.TileEntity;
-import net.minecraft.server.v1_8_R3.TileEntityBrewingStand;
-import net.minecraft.server.v1_8_R3.TileEntityChest;
-import net.minecraft.server.v1_8_R3.TileEntityDispenser;
-import net.minecraft.server.v1_8_R3.TileEntityDropper;
-import net.minecraft.server.v1_8_R3.TileEntityEnchantTable;
-import net.minecraft.server.v1_8_R3.TileEntityFurnace;
-import net.minecraft.server.v1_8_R3.TileEntityHopper;
-
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
 public class NoLock {
+	static String minecraft = "net.minecraft.server.";
+	static String bukkit = "org.bukkit.craftbukkit.";
+	static String version = Bukkit.getServer().getClass().getPackage().getName().replace(".", ",").split(",")[3];
+
 	Block block;
 	String rawdata;
 	String owner;
@@ -68,12 +63,27 @@ public class NoLock {
 	}
 
 	public static String getRawData(Block block) {
-		final CraftWorld world = (CraftWorld) block.getWorld();
-		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
-		if (nmsTileEntity instanceof INamableTileEntity) {
-			return ((INamableTileEntity) nmsTileEntity).getName();
+		try {
+			Class<?> clCraftWorld = Class.forName(bukkit + version + ".CraftWorld");
+			Method mGetTileEntityAt = clCraftWorld.getMethod("getTileEntityAt", Integer.TYPE, Integer.TYPE,
+					Integer.TYPE);
+
+			Class<?> clINamableTileEntity = Class.forName(minecraft + version + ".INamableTileEntity");
+			Method mGetName = clINamableTileEntity.getMethod("getName");
+
+			return (String) mGetName
+					.invoke(mGetTileEntityAt.invoke(block.getWorld(), block.getX(), block.getY(), block.getZ()));
+
+		} catch (Exception e) {
+			return null;
 		}
-		return null;
+
+		// final CraftWorld world = (CraftWorld) block.getWorld();
+		// final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(),
+		// block.getY(), block.getZ());
+		// if (nmsTileEntity instanceof INamableTileEntity) {
+		// return ((INamableTileEntity) nmsTileEntity).getName();
+		// }
 	}
 
 	// getOwner methods
@@ -137,29 +147,92 @@ public class NoLock {
 	}
 
 	public static boolean setRawData(Block block, String rawdata) {
-		final CraftWorld world = (CraftWorld) block.getWorld();
-		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
+		try {
 
-		if (nmsTileEntity instanceof INamableTileEntity) {
-			if (nmsTileEntity instanceof TileEntityChest) {
-				((TileEntityChest) nmsTileEntity).a(rawdata);
-			} else if (nmsTileEntity instanceof TileEntityFurnace) {
-				((TileEntityFurnace) nmsTileEntity).a(rawdata);
-			} else if (nmsTileEntity instanceof TileEntityDispenser) {
-				((TileEntityDispenser) nmsTileEntity).a(rawdata);
-			} else if (nmsTileEntity instanceof TileEntityDropper) {
-				((TileEntityDropper) nmsTileEntity).a(rawdata);
-			} else if (nmsTileEntity instanceof TileEntityHopper) {
-				((TileEntityHopper) nmsTileEntity).a(rawdata);
-			} else if (nmsTileEntity instanceof TileEntityBrewingStand) {
-				((TileEntityBrewingStand) nmsTileEntity).a(rawdata);
-			} else if (nmsTileEntity instanceof TileEntityEnchantTable) {
-				((TileEntityEnchantTable) nmsTileEntity).a(rawdata);
+			Class<?> clCraftWorld = Class.forName(bukkit + version + ".CraftWorld");
+			Method mCraftWorldGetTileEntityAt = clCraftWorld.getMethod("getTileEntityAt", Integer.TYPE, Integer.TYPE,
+					Integer.TYPE);
+
+			Class<?> clTileEntity = Class.forName(minecraft + version + ".TileEntity");
+			Method mTileEntityUpdate = clTileEntity.getMethod("update");
+
+			Class<?> clINamableTileEntity = Class.forName(minecraft + version + ".INamableTileEntity");
+
+			Class<?> clTileEntityChest = Class.forName(minecraft + version + ".TileEntityChest");
+			Method mTileEntityChestSetName = clTileEntityChest.getMethod("a", String.class);
+
+			Class<?> clTileEntityFurnace = Class.forName(minecraft + version + ".TileEntityFurnace");
+			Method mTileEntityFurnaceSetName = clTileEntityFurnace.getMethod("a", String.class);
+
+			Class<?> clTileEntityDispenser = Class.forName(minecraft + version + ".TileEntityDispenser");
+			Method mTileEntityDispenserSetName = clTileEntityDispenser.getMethod("a", String.class);
+
+			Class<?> clTileEntityDropper = Class.forName(minecraft + version + ".TileEntityDropper");
+			Method mTileEntityDropperSetName = clTileEntityDropper.getMethod("a", String.class);
+
+			Class<?> clTileEntityHopper = Class.forName(minecraft + version + ".TileEntityHopper");
+			Method mTileEntityHopperSetName = clTileEntityHopper.getMethod("a", String.class);
+
+			Class<?> clTileEntityBrewingStand = Class.forName(minecraft + version + ".TileEntityBrewingStand");
+			Method mTileEntityBrewingStandSetName = clTileEntityBrewingStand.getMethod("a", String.class);
+
+			Class<?> clTileEntityEnchantTable = Class.forName(minecraft + version + ".TileEntityEnchantTable");
+			Method mTileEntityEnchantTableSetName = clTileEntityEnchantTable.getMethod("a", String.class);
+
+			Object nmsEntity = mCraftWorldGetTileEntityAt.invoke(block.getWorld(), block.getX(), block.getY(),
+					block.getZ());
+
+			if (clINamableTileEntity.isInstance(clTileEntity.cast(nmsEntity))) {
+				if (clTileEntityChest.isInstance(clTileEntity.cast(nmsEntity))) {
+					mTileEntityChestSetName.invoke(clTileEntity.cast(nmsEntity), rawdata);
+				} else if (clTileEntityFurnace.isInstance(clTileEntity.cast(nmsEntity))) {
+					mTileEntityFurnaceSetName.invoke(clTileEntity.cast(nmsEntity), rawdata);
+				} else if (clTileEntityDispenser.isInstance(clTileEntity.cast(nmsEntity))) {
+					mTileEntityDispenserSetName.invoke(clTileEntity.cast(nmsEntity), rawdata);
+				} else if (clTileEntityDropper.isInstance(clTileEntity.cast(nmsEntity))) {
+					mTileEntityDropperSetName.invoke(clTileEntity.cast(nmsEntity), rawdata);
+				} else if (clTileEntityHopper.isInstance(clTileEntity.cast(nmsEntity))) {
+					mTileEntityHopperSetName.invoke(clTileEntity.cast(nmsEntity), rawdata);
+				} else if (clTileEntityBrewingStand.isInstance(clTileEntity.cast(nmsEntity))) {
+					mTileEntityBrewingStandSetName.invoke(clTileEntity.cast(nmsEntity), rawdata);
+				} else if (clTileEntityEnchantTable.isInstance(clTileEntity.cast(nmsEntity))) {
+					mTileEntityEnchantTableSetName.invoke(clTileEntity.cast(nmsEntity), rawdata);
+				}
+				mTileEntityUpdate.invoke(clTileEntity.cast(nmsEntity));
+				return true;
+			} else {
+				return false;
 			}
-			nmsTileEntity.update();
-			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+
 		}
-		return false;
+
+		// final CraftWorld world = (CraftWorld) block.getWorld();
+		// final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(),
+		// block.getY(), block.getZ());
+		//
+		// if (nmsTileEntity instanceof INamableTileEntity) {
+		// if (nmsTileEntity instanceof TileEntityChest) {
+		// ((TileEntityChest) nmsTileEntity).a(rawdata);
+		// } else if (nmsTileEntity instanceof TileEntityFurnace) {
+		// ((TileEntityFurnace) nmsTileEntity).a(rawdata);
+		// } else if (nmsTileEntity instanceof TileEntityDispenser) {
+		// ((TileEntityDispenser) nmsTileEntity).a(rawdata);
+		// } else if (nmsTileEntity instanceof TileEntityDropper) {
+		// ((TileEntityDropper) nmsTileEntity).a(rawdata);
+		// } else if (nmsTileEntity instanceof TileEntityHopper) {
+		// ((TileEntityHopper) nmsTileEntity).a(rawdata);
+		// } else if (nmsTileEntity instanceof TileEntityBrewingStand) {
+		// ((TileEntityBrewingStand) nmsTileEntity).a(rawdata);
+		// } else if (nmsTileEntity instanceof TileEntityEnchantTable) {
+		// ((TileEntityEnchantTable) nmsTileEntity).a(rawdata);
+		// }
+		// nmsTileEntity.update();
+		// return true;
+		// }
+		// return false;
 	}
 
 	public static boolean setRawData(Block block, String owner, List<String> users, String name, Object extradata) {
@@ -292,13 +365,29 @@ public class NoLock {
 	}
 
 	public static boolean isNamableTileEntity(Block block) {
-		final CraftWorld world = (CraftWorld) block.getWorld();
-		final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(), block.getY(), block.getZ());
+		try {
+			Class<?> clCraftWorld = Class.forName(bukkit + version + ".CraftWorld");
+			Method mCraftWorldGetTileEntityAt = clCraftWorld.getMethod("getTileEntityAt", Integer.TYPE, Integer.TYPE,
+					Integer.TYPE);
 
-		if (nmsTileEntity instanceof INamableTileEntity) {
-			return true;
+			Class<?> clINamableTileEntity = Class.forName(minecraft + version + ".INamableTileEntity");
+
+			Class<?> clTileEntity = Class.forName(minecraft + version + ".TileEntity");
+
+			Object nmsEntity = mCraftWorldGetTileEntityAt.invoke(block.getWorld(), block.getX(), block.getY(),
+					block.getZ());
+
+			return clINamableTileEntity.isInstance(clTileEntity.cast(nmsEntity));
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
 		}
-		return false;
+
+		// final CraftWorld world = (CraftWorld) block.getWorld();
+		// final TileEntity nmsTileEntity = world.getTileEntityAt(block.getX(),
+		// block.getY(), block.getZ());
+		//
+		// return nmsTileEntity instanceof INamableTileEntity);
 	}
 
 }
