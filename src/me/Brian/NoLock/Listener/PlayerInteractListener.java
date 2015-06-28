@@ -3,12 +3,12 @@ package me.Brian.NoLock.Listener;
 import me.Brian.NoLock.API.NoLock;
 import me.Brian.NoLock.API.Config;
 
-import net.minecraft.server.v1_8_R1.INamableTileEntity;
-import net.minecraft.server.v1_8_R1.TileEntity;
+import net.minecraft.server.v1_8_R3.INamableTileEntity;
+import net.minecraft.server.v1_8_R3.TileEntity;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,7 +43,7 @@ public class PlayerInteractListener implements Listener {
 					}
 					event.setCancelled(cancel);
 					if (cancel) {
-						player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to open this container!");
+						player.sendMessage("ï¿½ï¿½6[NoLock] ï¿½ï¿½cYou have no permission to open this container!");
 					}
 
 					if (container.isOwner(player)) {
@@ -66,7 +66,7 @@ public class PlayerInteractListener implements Listener {
 					if (!NoLock.isContainer(block) && nmsTileEntity instanceof INamableTileEntity) {
 						NoLock.setRawData(block, player.getUniqueId().toString(), null, null, null);
 						event.setCancelled(true);
-						player.sendMessage("¡ì6[NoLock] ¡ìcYou protected this container!");
+						player.sendMessage("ï¿½ï¿½6[NoLock] ï¿½ï¿½cYou protected this container!");
 						// return;
 					}
 				}

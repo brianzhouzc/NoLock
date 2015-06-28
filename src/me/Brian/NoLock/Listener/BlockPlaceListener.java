@@ -1,14 +1,14 @@
 package me.Brian.NoLock.Listener;
 
 import me.Brian.NoLock.API.NoLock;
-import net.minecraft.server.v1_8_R1.INamableTileEntity;
-import net.minecraft.server.v1_8_R1.TileEntity;
-import net.minecraft.server.v1_8_R1.TileEntityChest;
-import net.minecraft.server.v1_8_R1.TileEntityHopper;
+import net.minecraft.server.v1_8_R3.INamableTileEntity;
+import net.minecraft.server.v1_8_R3.TileEntity;
+import net.minecraft.server.v1_8_R3.TileEntityChest;
+import net.minecraft.server.v1_8_R3.TileEntityHopper;
 
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.craftbukkit.v1_8_R1.CraftWorld;
+import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
