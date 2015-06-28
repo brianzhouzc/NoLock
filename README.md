@@ -8,6 +8,9 @@ The idea of how data is stored is to set
 TileEntityName for containers (chests/furnaces..etc) as json data with owner and
 users' names and UUIDs.
 
+NoLock can now protect the following containers:  
+Chest, Trapped Chest, Furnace, Dispenser, Dropper, Hopper, Brewing Stand and Enchant Table.
+
 Information of a container is  stored like this:  
 ```
 {
