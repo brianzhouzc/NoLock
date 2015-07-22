@@ -28,20 +28,20 @@ public class CommandListener implements CommandExecutor {
 				Player player = (Player) sender;
 
 				if (args.length == 0) {
-					sender.sendMessage("¡ì6[NoLock] ====== NoLock ======");
+					sender.sendMessage("Â§6[NoLock] ====== NoLock ======");
 				} else {
 					if (args[0].equalsIgnoreCase("lock")) {
 						Block block = player.getTargetBlock(new HashSet<Material>(), 5);
 						if (NoLock.isNamableTileEntity(block)) {
 							if (!NoLock.isContainer(block)) {
 								if (NoLock.setRawData(block, player.getUniqueId().toString(), null, null, null)) {
-									player.sendMessage("¡ì6[NoLock] ¡ìcYou locked this container!");
+									player.sendMessage("Â§6[NoLock] Â§cYou locked this container!");
 								}
 							} else {
-								player.sendMessage("¡ì6[NoLock] ¡ìcThis container is already locked!");
+								player.sendMessage("Â§6[NoLock] Â§cThis container is already locked!");
 							}
 						} else {
-							player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be lock!");
+							player.sendMessage("Â§6[NoLock] Â§cTarget block can't be lock!");
 						}
 
 					} else if (args[0].equalsIgnoreCase("info")) {
@@ -49,10 +49,10 @@ public class CommandListener implements CommandExecutor {
 						if (NoLock.isNamableTileEntity(block)) {
 							if (NoLock.isContainer(block)) {
 								NoLock container = new NoLock(block);
-								player.sendMessage("¡ì6[NoLock] ¡ìcShowing information of your target container..");
-								player.sendMessage("¡ì6[NoLock] ¡ìcThis container is locked by ¡ìa" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName());
+								player.sendMessage("Â§6[NoLock] Â§cShowing information of your target container..");
+								player.sendMessage("Â§6[NoLock] Â§cThis container is locked by Â§a" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName());
 								if (container.getUsers() != null) {
-									String currentmessage = "¡ì6[NoLock] ¡ìcThere are currently ¡ìa" + container.getUsers().size() + " ¡ìcuser(s) on this container";
+									String currentmessage = "Â§6[NoLock] Â§cThere are currently Â§a" + container.getUsers().size() + " Â§cuser(s) on this container";
 									String currentusers = null;
 									if (container.getUsers().size() == 0) {
 										currentmessage = currentmessage + ".";
@@ -64,20 +64,20 @@ public class CommandListener implements CommandExecutor {
 										currentusers = createString(currentusers, Bukkit.getOfflinePlayer(UUID.fromString(uuid)).getName());
 									}
 									if (currentusers != null) {
-										player.sendMessage("¡ì6[NoLock] ¡ìc" + currentusers);
+										player.sendMessage("Â§6[NoLock] Â§c" + currentusers);
 									}
 								} else {
-									player.sendMessage("¡ì6[NoLock] ¡ìcThere are currently no user on this container.");
+									player.sendMessage("Â§6[NoLock] Â§cThere are currently no user on this container.");
 								}
 							} else {
-								player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locket yet!");
+								player.sendMessage("Â§6[NoLock] Â§cTarget container isn't locket yet!");
 							}
 						} else {
-							player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
+							player.sendMessage("Â§6[NoLock] Â§cTarget block can't be a container!");
 						}
 					} else if (args[0].equalsIgnoreCase("user")) {
 						if (args.length == 1) {
-							player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
+							player.sendMessage("Â§6[NoLock] Â§cUnknown arguements. Please type Â§a/nolock user help Â§cto see the help menu!");
 						} else if (args.length >= 2) {
 							Block block = player.getTargetBlock(new HashSet<Material>(), 5);
 							if (args[1].equalsIgnoreCase("add")) {
@@ -113,29 +113,29 @@ public class CommandListener implements CommandExecutor {
 													container.addUsers(successuuid);
 												}
 												if (successusers != null) {
-													player.sendMessage("¡ì6[NoLock] ¡ìcSuccessfuly added player(s) " + successusers + "¡ìc to container's users list!");
+													player.sendMessage("Â§6[NoLock] Â§cSuccessfuly added player(s) " + successusers + "Â§c to container's users list!");
 												}
 												if (failusers != null) {
-													player.sendMessage("¡ì6[NoLock] ¡ìcFailed to add player(s) " + failusers
-															+ "¡ìc to container's users list, they might be already in users list, or they never played on this server before!");
+													player.sendMessage("Â§6[NoLock] Â§cFailed to add player(s) " + failusers
+															+ "Â§c to container's users list, they might be already in users list, or they never played on this server before!");
 												}
 											} else {
-												player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to edit ¡ìc" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
+												player.sendMessage("Â§6[NoLock] Â§cYou have no permission to edit Â§c" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
 														+ "'s container!");
 											}
 										} else {
-											player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locked yet!");
+											player.sendMessage("Â§6[NoLock] Â§cTarget container isn't locked yet!");
 										}
 									} else {
-										player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
+										player.sendMessage("Â§6[NoLock] Â§cTarget block can't be a container!");
 									}
 								} else {
-									player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
+									player.sendMessage("Â§6[NoLock] Â§cUnknown arguements. Please type Â§a/nolock user help Â§cto see the help menu!");
 								}
 
 							} else if (args[1].equalsIgnoreCase("remove")) {
 								if (args.length == 1) {
-									player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
+									player.sendMessage("Â§6[NoLock] Â§cUnknown arguements. Please type Â§a/nolock user help Â§cto see the help menu!");
 								}
 								if (args.length > 2) {
 									if (NoLock.isNamableTileEntity(block)) {
@@ -167,24 +167,24 @@ public class CommandListener implements CommandExecutor {
 													container.removeUsers(successuuid);
 												}
 												if (successusers != null) {
-													player.sendMessage("¡ì6[NoLock] ¡ìcSuccessfuly removed player(s) " + successusers + "¡ìc from container's users list!");
+													player.sendMessage("Â§6[NoLock] Â§cSuccessfuly removed player(s) " + successusers + "Â§c from container's users list!");
 												}
 												if (failusers != null) {
-													player.sendMessage("¡ì6[NoLock] ¡ìcFailed to remove player(s) " + failusers
-															+ "¡ìc from container's users list, they aren't in the container's users list!");
+													player.sendMessage("Â§6[NoLock] Â§cFailed to remove player(s) " + failusers
+															+ "Â§c from container's users list, they aren't in the container's users list!");
 												}
 											} else {
-												player.sendMessage("¡ì6[NoLock] ¡ìcYou have no permission to edit ¡ìc" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
+												player.sendMessage("Â§6[NoLock] Â§cYou have no permission to edit Â§c" + Bukkit.getOfflinePlayer(UUID.fromString(container.getOwner())).getName()
 														+ "'s container!");
 											}
 										} else {
-											player.sendMessage("¡ì6[NoLock] ¡ìcTarget container isn't locked yet!");
+											player.sendMessage("Â§6[NoLock] Â§cTarget container isn't locked yet!");
 										}
 									} else {
-										player.sendMessage("¡ì6[NoLock] ¡ìcTarget block can't be a container!");
+										player.sendMessage("Â§6[NoLock] Â§cTarget block can't be a container!");
 									}
 								} else {
-									player.sendMessage("¡ì6[NoLock] ¡ìcUnknown arguements. Please type ¡ìa/nolock user help ¡ìcto see the help menu!");
+									player.sendMessage("Â§6[NoLock] Â§cUnknown arguements. Please type Â§a/nolock user help Â§cto see the help menu!");
 								}
 							}
 						}
